@@ -1,0 +1,132 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.springframework.boot",
+    "module": "spring-boot-starter-mustache",
+    "version": "3.4.3",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.12.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter",
+          "version": {
+            "requires": "3.4.3"
+          }
+        },
+        {
+          "group": "com.samskivert",
+          "module": "jmustache",
+          "version": {
+            "requires": "1.16"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-boot-starter-mustache-3.4.3.jar",
+          "url": "spring-boot-starter-mustache-3.4.3.jar",
+          "size": 4767,
+          "sha512": "62d504e150b0f4b0ffd20638c628c86be6f55ccd6f1d7b4aa03e90df4a8f977443395a12b959c250fd7c291115a7522502d6ae3c8d7625db324adbb045a7082b",
+          "sha256": "84c0cdcfdb66e4b3252789561fbf16b53d4aff8413cbbbc86fe3545470e17fb7",
+          "sha1": "b17bed17648f835790467f010d04fa269456d176",
+          "md5": "5fb983a2ec1ef6c4828cce590e84ed44"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter",
+          "version": {
+            "requires": "3.4.3"
+          }
+        },
+        {
+          "group": "com.samskivert",
+          "module": "jmustache",
+          "version": {
+            "requires": "1.16"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-boot-starter-mustache-3.4.3.jar",
+          "url": "spring-boot-starter-mustache-3.4.3.jar",
+          "size": 4767,
+          "sha512": "62d504e150b0f4b0ffd20638c628c86be6f55ccd6f1d7b4aa03e90df4a8f977443395a12b959c250fd7c291115a7522502d6ae3c8d7625db324adbb045a7082b",
+          "sha256": "84c0cdcfdb66e4b3252789561fbf16b53d4aff8413cbbbc86fe3545470e17fb7",
+          "sha1": "b17bed17648f835790467f010d04fa269456d176",
+          "md5": "5fb983a2ec1ef6c4828cce590e84ed44"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "spring-boot-starter-mustache-3.4.3-javadoc.jar",
+          "url": "spring-boot-starter-mustache-3.4.3-javadoc.jar",
+          "size": 4767,
+          "sha512": "62d504e150b0f4b0ffd20638c628c86be6f55ccd6f1d7b4aa03e90df4a8f977443395a12b959c250fd7c291115a7522502d6ae3c8d7625db324adbb045a7082b",
+          "sha256": "84c0cdcfdb66e4b3252789561fbf16b53d4aff8413cbbbc86fe3545470e17fb7",
+          "sha1": "b17bed17648f835790467f010d04fa269456d176",
+          "md5": "5fb983a2ec1ef6c4828cce590e84ed44"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "spring-boot-starter-mustache-3.4.3-sources.jar",
+          "url": "spring-boot-starter-mustache-3.4.3-sources.jar",
+          "size": 4767,
+          "sha512": "62d504e150b0f4b0ffd20638c628c86be6f55ccd6f1d7b4aa03e90df4a8f977443395a12b959c250fd7c291115a7522502d6ae3c8d7625db324adbb045a7082b",
+          "sha256": "84c0cdcfdb66e4b3252789561fbf16b53d4aff8413cbbbc86fe3545470e17fb7",
+          "sha1": "b17bed17648f835790467f010d04fa269456d176",
+          "md5": "5fb983a2ec1ef6c4828cce590e84ed44"
+        }
+      ]
+    }
+  ]
+}
