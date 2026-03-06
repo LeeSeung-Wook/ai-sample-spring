@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+
+    <form>
+        <div>
+            <label for="username">아이디</label>
+            <input id="username" name="username" type="text">
+            <button type="button" onclick="usernameCheck()">중복확인</button>
+        </div>
+        <p id="username-check-message"></p>
+    </form>
+
+    <script>
+        async function usernameCheck() {
+            let username = document.querySelector("#username").value.trim();
+            let messageEl = document.querySelector("#username-check-message");
+
+            if (username.length === 0) {
+                messageEl.textContent = "아이디를 입력해주세요.";
+                return;
+            }
+
+            try {
+                let response = await fetch(`/api/users/username-check?username=${encodeURIComponent(username)}`);
+                let result = await response.json();
+
+                if (result.body) {
+                    messageEl.textContent = "이미 사용중입니다.";
+                } else {
+                    messageEl.textContent = "사용 가능합니다.";
+                }
+            } catch (error) {
+                alert("통신 오류가 발생했습니다.");
+            }
+        }
+    </script>
+</body>
+</html>

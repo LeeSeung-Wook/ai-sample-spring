@@ -1,65 +1,130 @@
-﻿# PROJECT CONTEXT
+﻿# Project Context
 
-## 1. 프로젝트 개요
-- 프로젝트명: demo
-- 목적: 블로그 만들기 프로젝트 (사용자, 게시글, 댓글 중심의 CRUD 학습/구현)
-- 현재 상태: Spring Boot 기반 기본 골격 및 도메인 모델(User, Board, Reply) 구성 완료
+## 프로젝트 개요
 
-## 2. 전체 아키텍처
-- 아키텍처 스타일: 도메인 기반 플랫 패키지 + 계층형 흐름
-- 요청 흐름: Controller -> Service -> Repository(JPA) -> H2 DB
-- 렌더링 방식: SSR(Mustache 템플릿) + 향후 REST API 분리 확장 구조
-- 공통 모듈: `_core/utils/Resp` (API 공통 응답 래퍼)
+Spring Boot 기반의 **블로그 만들기** 프로젝트이다.
+사용자가 회원가입/로그인 후 게시글을 작성하고, 댓글을 달 수 있는 블로그 서비스를 구현한다.
 
-### 2.1 패키지 구조
-- `com.example.demo.board`: 게시글 도메인 (Entity/Controller/Service/Repository/Request/Response)
-- `com.example.demo.user`: 사용자 도메인 (Entity/Controller/Service/Repository/Request/Response)
-- `com.example.demo.reply`: 댓글 도메인 (Entity/Controller/Service/Repository/Request/Response)
-- `com.example.demo._core.utils`: 공통 유틸
+---
 
-### 2.2 도메인 관계
-- User(1) - Board(N)
-- User(1) - Reply(N)
-- Board(1) - Reply(N)
-- 연관관계 fetch 전략: LAZY
+## 아키텍처
 
-## 3. 기술 스택
-- Language: Java 21
-- Framework: Spring Boot 3.4.3
-- Build Tool: Gradle
-- Web: Spring Web MVC
-- Template Engine: Mustache
-- ORM/Data Access: Spring Data JPA + Hibernate
-- Database: H2 (in-memory)
-- Dev Convenience: Spring Boot DevTools, Lombok
-- Test: spring-boot-starter-test (JUnit Platform)
+### 전체 구조
 
-## 4. 설정/운영 컨텍스트
-- 서버 포트: `8080`
-- 인코딩: UTF-8 강제
-- OSIV: `false`
-- JPA SQL 로그: 활성화
-- 배치 페치 크기: `10`
-- 세션 기반 인증 컨텍스트 사용 (`HttpSession`)
-- 초기 데이터: `src/main/resources/db/data.sql` 로딩
+```
+Client (Browser)
+    │
+    ├── SSR 요청 ──→ @Controller ──→ Service ──→ Repository ──→ H2 DB
+    │                    │
+    │                    └──→ Mustache Template ──→ HTML 응답
+    │
+    └── API 요청 ──→ @RestController ──→ Service ──→ Repository ──→ H2 DB
+                         │
+                         └──→ Resp<T> JSON 응답
+```
 
-## 5. 현재 구현 범위
-- 엔티티: User, Board, Reply
-- 리포지토리: 각 도메인별 JpaRepository 구성
-- 서비스: 도메인별 서비스 골격 구성
-- 컨트롤러: SSR 컨트롤러 골격 구성 (`/home` 진입 가능)
-- 뷰: `home.mustache` 기본 페이지
+- **SSR (Server-Side Rendering)**: Mustache 템플릿 엔진을 사용한 페이지 렌더링
+- **REST API**: `/api` 접두사, `Resp<T>` 공통 응답 래퍼 사용
+- **인증**: HttpSession 기반 (Spring Security 미사용)
 
-## 6. 개발 규칙 (프로젝트 내부 컨벤션 반영)
-- 도메인별 플랫 구조 유지 (레이어별 패키지 분리 금지)
-- SSR Controller와 REST ApiController 파일 분리
-- REST 응답은 `Resp<T>` 래퍼 사용
-- DTO는 Service에서 생성/반환, Controller에 Entity 직접 노출 금지
-- 테이블 네이밍: `*_tb`, PK 타입: `Integer`
+### 패키지 구조 (도메인 기반 플랫 구조)
 
-## 7. 다음 단계 제안
-- 게시글/댓글/회원가입-로그인 실제 CRUD 유스케이스 완성
-- SSR 페이지(목록/상세/작성/수정) 및 폼 바인딩 추가
-- REST API (`/api/...`) 분리 구현 및 예외 처리 표준화
-- 인증/인가 흐름(세션 체크 인터셉터 등) 보강
-- 통합 테스트 및 도메인별 서비스 테스트 확장
+```
+com.example.demo/
+  _core/
+    utils/
+      Resp.java              ← 공통 API 응답 래퍼
+  user/
+    User.java                ← 회원 엔티티
+    UserController.java      ← SSR 컨트롤러
+    UserService.java         ← 비즈니스 로직
+    UserRepository.java      ← 데이터 접근
+    UserRequest.java         ← 요청 DTO
+    UserResponse.java        ← 응답 DTO
+  board/
+    Board.java               ← 게시글 엔티티
+    BoardController.java     ← SSR 컨트롤러
+    BoardService.java        ← 비즈니스 로직
+    BoardRepository.java     ← 데이터 접근
+    BoardRequest.java        ← 요청 DTO
+    BoardResponse.java       ← 응답 DTO
+  reply/
+    Reply.java               ← 댓글 엔티티
+    ReplyController.java     ← SSR 컨트롤러
+    ReplyService.java        ← 비즈니스 로직
+    ReplyRepository.java     ← 데이터 접근
+    ReplyRequest.java        ← 요청 DTO
+    ReplyResponse.java       ← 응답 DTO
+```
+
+---
+
+## 기술 스택
+
+| 분류       | 기술                                  |
+| ---------- | ------------------------------------- |
+| Language   | Java 21                              |
+| Framework  | Spring Boot 3.3.4                     |
+| Build Tool | Gradle                                |
+| ORM        | Spring Data JPA (Hibernate)           |
+| DB         | H2 (In-Memory)                        |
+| Template   | Mustache                              |
+| Auth       | HttpSession                           |
+| Library    | Lombok                                |
+| Test       | JUnit 5 (Spring Boot Starter Test)    |
+| Dev Tool   | Spring Boot DevTools                  |
+
+---
+
+## 도메인 모델 (ERD)
+
+```
+┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+│   user_tb    │       │   board_tb   │       │   reply_tb   │
+├──────────────┤       ├──────────────┤       ├──────────────┤
+│ id (PK)      │──┐    │ id (PK)      │──┐    │ id (PK)      │
+│ username (UQ)│  │    │ title        │  │    │ comment      │
+│ password     │  ├───<│ content      │  ├───<│ user_id (FK) │
+│ email        │  │    │ user_id (FK) │  │    │ board_id (FK)│
+│ created_at   │  │    │ created_at   │  │    │ created_at   │
+└──────────────┘  │    └──────────────┘  │    └──────────────┘
+                  │                      │
+                  └──────────────────────┘
+```
+
+- **User → Board**: 1:N (한 유저가 여러 게시글 작성)
+- **User → Reply**: 1:N (한 유저가 여러 댓글 작성)
+- **Board → Reply**: 1:N (한 게시글에 여러 댓글)
+- 모든 연관관계는 `FetchType.LAZY`
+
+---
+
+## 주요 설정
+
+| 항목                   | 값                         |
+| ---------------------- | -------------------------- |
+| Server Port            | 8080                       |
+| OSIV                   | false                      |
+| Batch Fetch Size       | 10                         |
+| DB URL                 | jdbc:h2:mem:test           |
+| H2 Console             | 활성화 (/h2-console)       |
+| SQL 초기화             | classpath:db/data.sql      |
+| Character Encoding     | UTF-8 (강제)               |
+
+---
+
+## 핵심 기능 (예정 포함)
+
+| 도메인 | 기능                                      | 상태     |
+| ------ | ----------------------------------------- | -------- |
+| User   | 회원가입, 로그인, 로그아웃, 중복체크       | 개발 중  |
+| Board  | 게시글 CRUD, 목록 조회, 상세 조회          | 개발 중  |
+| Reply  | 댓글 작성, 삭제                            | 개발 중  |
+
+---
+
+## 컨벤션 참조
+
+코드 작성 시 반드시 아래 문서의 규칙을 따른다.
+
+- [코드 컨벤션](_docs/ai/rule/common-rule.md)
